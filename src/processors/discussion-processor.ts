@@ -30,7 +30,7 @@ export class DiscussionFetcher
         core.debug(
           `Fetching discussions page for ${input.owner}/${input.repo}, with cursor ${cursor}`
         )
-        continue
+        break;
       }
 
       const response: WrappedQueryResponse<DiscussionsQueryResponse> =
