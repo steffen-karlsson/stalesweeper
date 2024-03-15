@@ -6,12 +6,11 @@
 [![CodeQL](https://github.com/steffen-karlsson/stalesweeper/actions/workflows/codeql-analysis.yml/badge.svg)](https://github.com/actions/typescript-action/actions/workflows/codeql-analysis.yml)
 
 ## Purpose
+$${\textsf{\color{#1ab458}Discussion closure should rest with the initiator.}}$$
 
-<p align="center"  style="color: #1ab458; font-weight: bold; font-size: large">
-<i>Discussion closure should rest with the initiator.<br/>
-Unclosed discussions can lead cluttered forums.<br/>
-StaleSweeper is the solution for persistent open discussions.</i>
-</p>
+$${\textsf{\color{#1ab458}Unclosed discussions can lead cluttered forums.}}$$
+
+$${\textsf{\color{#1ab458}StaleSweeper is the solution for persistent open discussions.}}$$
 
 ## All options
 
