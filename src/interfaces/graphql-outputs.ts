@@ -14,6 +14,13 @@ export interface DiscussionNode {
   id: string
   number: number
   updatedAt: string
+  isAnswered: boolean
+  category: DiscussionCategory
+}
+
+export interface DiscussionCategory {
+  name: string
+  isAnswerable: boolean
 }
 
 export interface WrappedQueryResponse<T> {

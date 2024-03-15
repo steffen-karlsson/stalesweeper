@@ -8,11 +8,16 @@ export function buildFetchAllDiscussionsQuery(
   return `
 query {
   repository(owner: "${owner}", name: "${repo}") {
-    discussions(first: 20, answered: true, states: OPEN, after: ${cursor}) {
+    discussions(first: 20, states: OPEN, after: ${cursor}) {
       nodes {
         id
         number
         updatedAt
+        isAnswered
+        category {
+          name
+          isAnswerable
+        }
       }
       pageInfo {
         hasNextPage

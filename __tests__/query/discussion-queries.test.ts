@@ -10,11 +10,16 @@ describe('queries', () => {
     expect(query).toEqual(`
 query {
   repository(owner: "my-owner", name: "my-repo") {
-    discussions(first: 20, answered: true, states: OPEN, after: null) {
+    discussions(first: 20, states: OPEN, after: null) {
       nodes {
         id
         number
         updatedAt
+        isAnswered
+        category {
+          name
+          isAnswerable
+        }
       }
       pageInfo {
         hasNextPage

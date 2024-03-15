@@ -9,6 +9,8 @@ interface RawDiscussionInputProps {
   repoToken: string
   message: string
   daysBeforeClose: number
+  category: string | undefined
+  closeUnanswered: boolean
   closeReason: string
   debug: boolean
 }
@@ -20,6 +22,8 @@ export class DiscussionInputProcessor
     const repoToken = core.getInput('repo-token')
     const message = core.getInput('message')
     const daysBeforeClose = parseInt(core.getInput('days-before-close'))
+    const category = core.getInput('category')
+    const closeUnanswered = core.getInput('close-unanswered') === 'true'
     const closeReason = core.getInput('close-reason')
     const debug = core.getInput('debug') === 'true'
 
@@ -27,6 +31,8 @@ export class DiscussionInputProcessor
       repoToken,
       message,
       daysBeforeClose,
+      category,
+      closeUnanswered,
       closeReason: closeReason.toUpperCase(),
       debug
     }
@@ -50,6 +56,8 @@ export class DiscussionInputProcessor
         repoToken,
         message,
         threshold,
+        category: category == '' ? undefined : category,
+        closeUnanswered,
         closeReason: closeReason as DiscussionCloseReason,
         debug
       } as DiscussionInputProps,
