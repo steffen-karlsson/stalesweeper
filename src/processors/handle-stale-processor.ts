@@ -49,7 +49,7 @@ export class HandleStaleDiscussions
       }
 
       const closeResponse: WrappedQueryResponse<DiscussionsQueryResponse> =
-        await this.authedGraphQL(buildCloseDiscussionQuery(discussion.id))
+        await this.authedGraphQL(buildCloseDiscussionQuery(discussion.id, this.props.closeReason))
       if (closeResponse.error) {
         return {
           result: [],
