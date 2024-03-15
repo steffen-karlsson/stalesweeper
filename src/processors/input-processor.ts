@@ -70,7 +70,7 @@ export class DiscussionInputProcessor
     props: RawDiscussionInputProps
   ): DiscussionPropsValidationError | undefined {
     if (isNaN(props.daysBeforeClose)) {
-      return new DiscussionPropsValidationError(
+      throw new DiscussionPropsValidationError(
         `Option "${props.daysBeforeClose}" did not parse to a valid number`
       )
     }
