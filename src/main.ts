@@ -1,26 +1,69 @@
 import * as core from '@actions/core'
-import { wait } from './wait'
+import { context } from '@actions/github'
+import { DiscussionFetcher } from './processors/discussion-processor'
+import { DiscussionInputProcessor } from './processors/input-processor'
+import { StaleDiscussionsValidator } from './processors/stale-processor'
+import { HandleStaleDiscussions } from './processors/handle-stale-processor'
 
 /**
  * The main function for the action.
  * @returns {Promise<void>} Resolves when the action is complete.
  */
 export async function run(): Promise<void> {
-  try {
-    const ms: string = core.getInput('milliseconds')
+  const input = new DiscussionInputProcessor()
+  const props = await input.process()
 
-    // Debug logs are only output if the `ACTIONS_STEP_DEBUG` secret is true
-    core.debug(`Waiting ${ms} milliseconds ...`)
-
-    // Log the current timestamp, wait, then log the new timestamp
-    core.debug(new Date().toTimeString())
-    await wait(parseInt(ms, 10))
-    core.debug(new Date().toTimeString())
-
-    // Set outputs for other workflow steps to use
-    core.setOutput('time', new Date().toTimeString())
-  } catch (error) {
-    // Fail the workflow run if an error occurs
-    if (error instanceof Error) core.setFailed(error.message)
+  if (props.error) {
+    core.setFailed(props.error)
+    return
   }
+  if (props.debug) {
+    core.debug(`Input props: ${JSON.stringify(props.result)}`)
+  }
+
+  const fetcher = new DiscussionFetcher(props.result)
+  const discussions = await fetcher.process({
+    owner: context.repo.owner,
+    repo: context.repo.repo
+  })
+
+  if (discussions.error) {
+    core.setFailed(discussions.error)
+    return
+  }
+  if (discussions.debug) {
+    core.debug(`Fetched discussions: ${JSON.stringify(discussions.result)}`)
+  }
+
+  const staleValidator = new StaleDiscussionsValidator(props.result)
+  const staleDiscussions = await staleValidator.process({
+    discussions: discussions.result
+  })
+
+  if (staleDiscussions.error) {
+    core.setFailed(staleDiscussions.error)
+    return
+  }
+  if (staleDiscussions.debug) {
+    core.debug(`Stale discussions: ${JSON.stringify(staleDiscussions.result)}`)
+  }
+
+  const staleHandler = new HandleStaleDiscussions(props.result)
+  const handledStaleDiscussions = await staleHandler.process({
+    discussions: staleDiscussions.result,
+    owner: context.repo.owner,
+    repo: context.repo.repo
+  })
+
+  if (handledStaleDiscussions.error) {
+    core.setFailed(handledStaleDiscussions.error)
+    return
+  }
+  if (handledStaleDiscussions.debug) {
+    core.debug(
+      `Processed stale discussions: ${JSON.stringify(handledStaleDiscussions.result)}`
+    )
+  }
+
+  core.setOutput('stale-discussions', handledStaleDiscussions.result)
 }
