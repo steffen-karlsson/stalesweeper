@@ -21,7 +21,7 @@ export async function run(): Promise<void> {
     core.debug(`Input props: ${JSON.stringify(props.result)}`)
   }
 
-  const fetcher = new DiscussionFetcher(props.result)
+  const fetcher = new DiscussionFetcher(props.result!)
   const discussions = await fetcher.process({
     owner: context.repo.owner,
     repo: context.repo.repo
@@ -35,7 +35,7 @@ export async function run(): Promise<void> {
     core.debug(`Fetched discussions: ${JSON.stringify(discussions.result)}`)
   }
 
-  const staleValidator = new StaleDiscussionsValidator(props.result)
+  const staleValidator = new StaleDiscussionsValidator(props.result!)
   const staleDiscussions = await staleValidator.process({
     discussions: discussions.result
   })
@@ -48,7 +48,7 @@ export async function run(): Promise<void> {
     core.debug(`Stale discussions: ${JSON.stringify(staleDiscussions.result)}`)
   }
 
-  const staleHandler = new HandleStaleDiscussions(props.result)
+  const staleHandler = new HandleStaleDiscussions(props.result!)
   const handledStaleDiscussions = await staleHandler.process({
     discussions: staleDiscussions.result,
     owner: context.repo.owner,

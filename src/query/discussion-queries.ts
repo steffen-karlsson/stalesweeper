@@ -42,7 +42,8 @@ mutation {
 
 export function buildCloseDiscussionQuery(
   discussionId: string,
-  reason: DiscussionCloseReason): string {
+  reason: DiscussionCloseReason
+): string {
   return `
 mutation {
   closeDiscussion(input:{discussionId: "${discussionId}", reason: "${reason as string}"}) {

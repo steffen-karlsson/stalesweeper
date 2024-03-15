@@ -30,7 +30,11 @@ query {
 }`)
   })
   it('generate fetch all discussions with cursor', async () => {
-    const query = buildFetchAllDiscussionsQuery('my-owner', 'my-repo', 'my-cursor')
+    const query = buildFetchAllDiscussionsQuery(
+      'my-owner',
+      'my-repo',
+      'my-cursor'
+    )
     expect(query).toEqual(`
 query {
   repository(owner: "my-owner", name: "my-repo") {
@@ -49,7 +53,10 @@ query {
 }`)
   })
   it('discussion add comment', async () => {
-    const query = buildDiscussionAddCommentQuery('my-discussion-id', 'my-message')
+    const query = buildDiscussionAddCommentQuery(
+      'my-discussion-id',
+      'my-message'
+    )
     expect(query).toEqual(`
 mutation {
   addDiscussionComment(input:{body: "my-message" , discussionId: "my-discussion-id"}) {

@@ -23,13 +23,18 @@ export class StaleDiscussionsValidator
     }
 
     const staleDiscussions = input.discussions.filter(discussion => {
-      if (discussion.category.isAnswerable
-        && !this.props.closeUnanswered
-        && !discussion.isAnswered) {
-          return false
+      if (
+        discussion.category.isAnswerable &&
+        !this.props.closeUnanswered &&
+        !discussion.isAnswered
+      ) {
+        return false
       }
 
-      if (this.props.category && discussion.category.name !== this.props.category) {
+      if (
+        this.props.category &&
+        discussion.category.name !== this.props.category
+      ) {
         return false
       }
 

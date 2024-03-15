@@ -56,7 +56,7 @@ export class DiscussionInputProcessor
         repoToken,
         message,
         threshold,
-        category: category == '' ? undefined : category,
+        category: category === '' ? undefined : category,
         closeUnanswered,
         closeReason: closeReason as DiscussionCloseReason,
         debug
@@ -66,7 +66,9 @@ export class DiscussionInputProcessor
     }
   }
 
-  _validateProps(props: RawDiscussionInputProps): DiscussionPropsValidationError | undefined {
+  _validateProps(
+    props: RawDiscussionInputProps
+  ): DiscussionPropsValidationError | undefined {
     if (isNaN(props.daysBeforeClose)) {
       return new DiscussionPropsValidationError(
         `Option "${props.daysBeforeClose}" did not parse to a valid number`
@@ -79,7 +81,9 @@ export class DiscussionInputProcessor
       case 'RESOLVED':
         return
       default:
-        throw new DiscussionPropsValidationError(`Invalid DiscussionCloseReason: ${props.closeReason}`);
+        throw new DiscussionPropsValidationError(
+          `Invalid DiscussionCloseReason: ${props.closeReason}`
+        )
     }
   }
 }
