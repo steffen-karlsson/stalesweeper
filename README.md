@@ -7,8 +7,10 @@
 
 ## Purpose
 
-<p align="center">
-<i>Discussion closure should rest with the initiator. Unclosed discussions can lead cluttered forums. StaleSweeper is the solution for persistent open discussions.</i>
+<p align="center"  style="color: #1ab458; font-weight: bold; font-size: large">
+<i>Discussion closure should rest with the initiator.<br/>
+Unclosed discussions can lead cluttered forums.<br/>
+StaleSweeper is the solution for persistent open discussions.</i>
 </p>
 
 ## All options
