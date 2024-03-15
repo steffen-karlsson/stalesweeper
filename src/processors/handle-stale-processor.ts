@@ -33,16 +33,18 @@ export class HandleStaleDiscussions
         continue
       }
 
-      const commentResponse: WrappedQueryResponse<DiscussionsQueryResponse> =
-        await this.executeQuery(
-          buildDiscussionAddCommentQuery(discussion.id, this.props.message)
-        )
-      if (commentResponse.error) {
-        return {
-          result: [],
-          success: false,
-          debug: this.props.debug,
-          error: commentResponse.error
+      if (this.props.message && this.props.message !== '') {
+        const commentResponse: WrappedQueryResponse<DiscussionsQueryResponse> =
+          await this.executeQuery(
+            buildDiscussionAddCommentQuery(discussion.id, this.props.message)
+          )
+        if (commentResponse.error) {
+          return {
+            result: [],
+            success: false,
+            debug: this.props.debug,
+            error: commentResponse.error
+          }
         }
       }
 
