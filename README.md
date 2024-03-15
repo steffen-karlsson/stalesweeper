@@ -7,24 +7,30 @@
 [![Coverage](./badges/coverage.svg)](./badges/coverage.svg)
 
 ## Purpose
+
 <p align="center">
 <i>In my opinion, only the raiser of a discussion that can decide if its acceptable answered and therefor can be closed.
 Now the problem comes, when the raisers are not closing their discussions and the fora gets cluttered, what to do?</i>
 </p>
 
 ## All options
+
 | **Argument**      | **Description**                                                                                | **Required** | **Options**                         | **Default**           |
-|-------------------|------------------------------------------------------------------------------------------------|:------------:|-------------------------------------|-----------------------|
+| ----------------- | ---------------------------------------------------------------------------------------------- | :----------: | ----------------------------------- | --------------------- |
 | repo-token        | Token for the repository. Can be passed in using `{{ secrets.GITHUB_TOKEN }}`.                 |      No      |                                     | `${{ github.token }}` |
 | message           | The message to post on the discussion when closing it.                                         |      No      |                                     |                       |
-| days-before-close | The number of days to wait to close a stale discussion.                                        |      Yes     |                                     |                       |
+| days-before-close | The number of days to wait to close a stale discussion.                                        |     Yes      |                                     |                       |
 | close-unanswered  | Close answerable discussions that have as not been marked as answered                          |      No      | `true`, `false`                     | `false`               |
 | category          | The category of discussions to close                                                           |      No      |                                     | All, no filtering     |
 | close-reason      | The reason to use when closing a discussion                                                    |      No      | `DUPLICATE`, `OUTDATED`, `RESOLVED` | `OUTDATED`            |
 | dry-run           | Run the processor in debug mode without actually performing any operations on live discussions |      No      | `true`, `false`                     | `false`               |
 
 ## Example
-Example of a workflow that runs the action every day at midnight UTC, closes all discussions of category 'Issue', that have been inactive for 14 days, and posts a message on the discussion when closing it.
+
+Example of a workflow that runs the action every day at midnight UTC, closes all
+discussions of category 'Issue', that have been inactive for 14 days, and posts
+a message on the discussion when closing it.
+
 ```yaml
 name: Close Stale Discussions
 

@@ -29259,16 +29259,18 @@ class HandleStaleDiscussions extends graphql_processor_1.GraphqlProcessor {
                 core.debug(`Adding comment and closing discussion with id #${discussion.number}`);
                 continue;
             }
-            const commentResponse = await this.executeQuery((0, discussion_queries_1.buildDiscussionAddCommentQuery)(discussion.id, this.props.message));
-            if (commentResponse.error) {
-                return {
-                    result: [],
-                    success: false,
-                    debug: this.props.debug,
-                    error: commentResponse.error
-                };
+            if (this.props.message && this.props.message !== '') {
+                const commentResponse = await this.executeQuery((0, discussion_queries_1.buildDiscussionAddCommentQuery)(discussion.id, this.props.message));
+                if (commentResponse.error) {
+                    return {
+                        result: [],
+                        success: false,
+                        debug: this.props.debug,
+                        error: commentResponse.error
+                    };
+                }
             }
-            const closeResponse = await this.authedGraphQL((0, discussion_queries_1.buildCloseDiscussionQuery)(discussion.id));
+            const closeResponse = await this.authedGraphQL((0, discussion_queries_1.buildCloseDiscussionQuery)(discussion.id, this.props.closeReason));
             if (closeResponse.error) {
                 return {
                     result: [],
@@ -29327,18 +29329,42 @@ class DiscussionInputProcessor {
         const repoToken = core.getInput('repo-token');
         const message = core.getInput('message');
         const daysBeforeClose = parseInt(core.getInput('days-before-close'));
+        const category = core.getInput('category');
+        const closeUnanswered = core.getInput('close-unanswered') === 'true';
         const closeReason = core.getInput('close-reason');
-        const debug = core.getInput('debug') === 'true';
-        const result = {
+        const debug = core.getInput('dry-run') === 'true';
+        const raw = {
             repoToken,
             message,
             daysBeforeClose,
-            closeReason,
+            category,
+            closeUnanswered,
+            closeReason: closeReason.toUpperCase(),
             debug
         };
+        const threshold = new Date();
+        threshold.setDate(threshold.getDate() - daysBeforeClose);
+        try {
+            this._validateProps(raw);
+        }
+        catch (error) {
+            return {
+                result: undefined,
+                error: error,
+                success: false,
+                debug
+            };
+        }
         return {
-            result,
-            error: this._validateProps(result),
+            result: {
+                repoToken,
+                message,
+                threshold,
+                category: category === '' ? undefined : category,
+                closeUnanswered,
+                closeReason: closeReason,
+                debug
+            },
             success: true,
             debug
         };
@@ -29346,6 +29372,14 @@ class DiscussionInputProcessor {
     _validateProps(props) {
         if (isNaN(props.daysBeforeClose)) {
             return new discussion_props_validation_error_1.DiscussionPropsValidationError(`Option "${props.daysBeforeClose}" did not parse to a valid number`);
+        }
+        switch (props.closeReason) {
+            case 'DUPLICATE':
+            case 'OUTDATED':
+            case 'RESOLVED':
+                return;
+            default:
+                throw new discussion_props_validation_error_1.DiscussionPropsValidationError(`Invalid DiscussionCloseReason: ${props.closeReason}`);
         }
     }
 }
@@ -29389,14 +29423,21 @@ const time_1 = __nccwpck_require__(7404);
 const core = __importStar(__nccwpck_require__(2186));
 class StaleDiscussionsValidator extends graphql_processor_1.GraphqlProcessor {
     async process(input) {
-        const daysBeforeClose = new Date();
-        daysBeforeClose.setDate(daysBeforeClose.getDate() - this.props.daysBeforeClose);
         if (this.props.debug) {
-            core.debug(`Comparing discussion dates with ${daysBeforeClose} days ago, to determine stale state`);
+            core.debug(`Comparing discussion dates with ${this.props.threshold}, to determine stale state`);
         }
         const staleDiscussions = input.discussions.filter(discussion => {
+            if (discussion.category.isAnswerable &&
+                !this.props.closeUnanswered &&
+                !discussion.isAnswered) {
+                return false;
+            }
+            if (this.props.category &&
+                discussion.category.name !== this.props.category) {
+                return false;
+            }
             const discussionUpdatedAt = new Date(discussion.updatedAt);
-            return (0, time_1.isBefore)(discussionUpdatedAt, daysBeforeClose);
+            return (0, time_1.isBefore)(discussionUpdatedAt, this.props.threshold);
         });
         return {
             result: staleDiscussions,
@@ -29419,39 +29460,44 @@ Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.buildCloseDiscussionQuery = exports.buildDiscussionAddCommentQuery = exports.buildFetchAllDiscussionsQuery = void 0;
 function buildFetchAllDiscussionsQuery(owner, repo, cursor) {
     return `
-    query {
-      repository(owner: "${owner}", name: "${repo}") {
-        discussions(first: 20, answered: true, states: OPEN, after: ${cursor}) {
-          nodes {
-            id
-            number
-            updatedAt
-          }
-          pageInfo {
-            hasNextPage
-            endCursor
-          }
+query {
+  repository(owner: "${owner}", name: "${repo}") {
+    discussions(first: 20, states: OPEN, after: ${cursor}) {
+      nodes {
+        id
+        number
+        updatedAt
+        isAnswered
+        category {
+          name
+          isAnswerable
         }
       }
-    }`;
+      pageInfo {
+        hasNextPage
+        endCursor
+      }
+    }
+  }
+}`;
 }
 exports.buildFetchAllDiscussionsQuery = buildFetchAllDiscussionsQuery;
 function buildDiscussionAddCommentQuery(discussionId, message) {
     return `
-    mutation { 
-      addDiscussionComment(input:{body: "${message}" , discussionId: "${discussionId}"}) { 
-        comment{id} 
-      }
-    }`;
+mutation {
+  addDiscussionComment(input:{body: "${message}" , discussionId: "${discussionId}"}) {
+    comment{id}
+  }
+}`;
 }
 exports.buildDiscussionAddCommentQuery = buildDiscussionAddCommentQuery;
-function buildCloseDiscussionQuery(discussionId) {
+function buildCloseDiscussionQuery(discussionId, reason) {
     return `
-    mutation { 
-      closeDiscussion(input:{discussionId: "${discussionId}"}) { 
-        discussion{id} 
-      } 
-    }`;
+mutation {
+  closeDiscussion(input:{discussionId: "${discussionId}", reason: "${reason}"}) {
+    discussion{id}
+  }
+}`;
 }
 exports.buildCloseDiscussionQuery = buildCloseDiscussionQuery;
 
