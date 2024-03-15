@@ -1,16 +1,16 @@
 {
-  "name": "typescript-action",
-  "description": "GitHub Actions TypeScript template",
-  "version": "0.0.0",
-  "author": "",
+  "name": "stale-discussions",
+  "description": "Close discussions with no recent activity",
+  "version": "0.0.1",
+  "author": "Steffen Wirenfeldt Karlsson",
   "private": true,
-  "homepage": "https://github.com/actions/typescript-action",
+  "homepage": "https://github.com/steffen-karlsson/stale-discussions",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/actions/typescript-action.git"
+    "url": "git+https://github.com/steffen-karlsson/stale-discussions.git"
   },
   "bugs": {
-    "url": "https://github.com/actions/typescript-action/issues"
+    "url": "https://github.com/steffen-karlsson/stale-discussions/issues"
   },
   "keywords": [
     "actions",
@@ -69,6 +69,7 @@
     "@actions/core": "^1.10.1"
   },
   "devDependencies": {
+    "@actions/github": "^6.0.0",
     "@types/jest": "^29.5.12",
     "@types/node": "^20.11.25",
     "@typescript-eslint/eslint-plugin": "^7.0.2",
