@@ -29129,7 +29129,7 @@ class DiscussionFetcher extends graphql_processor_1.GraphqlProcessor {
         while (true) {
             if (this.props.debug) {
                 core.debug(`Fetching discussions page for ${input.owner}/${input.repo}, with cursor ${cursor}`);
-                continue;
+                break;
             }
             const response = await this.executeQuery((0, discussion_queries_1.buildFetchAllDiscussionsQuery)(input.owner, input.repo, cursor));
             if (response.error) {
@@ -29371,7 +29371,7 @@ class DiscussionInputProcessor {
     }
     _validateProps(props) {
         if (isNaN(props.daysBeforeClose)) {
-            return new discussion_props_validation_error_1.DiscussionPropsValidationError(`Option "${props.daysBeforeClose}" did not parse to a valid number`);
+            throw new discussion_props_validation_error_1.DiscussionPropsValidationError(`Option "${props.daysBeforeClose}" did not parse to a valid number`);
         }
         switch (props.closeReason) {
             case 'DUPLICATE':

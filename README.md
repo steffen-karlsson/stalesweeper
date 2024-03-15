@@ -6,6 +6,7 @@
 [![CodeQL](https://github.com/steffen-karlsson/stalesweeper/actions/workflows/codeql-analysis.yml/badge.svg)](https://github.com/actions/typescript-action/actions/workflows/codeql-analysis.yml)
 
 ## Purpose
+
 $${\textsf{\color{#1ab458}Discussion closure should rest with the initiator.}}$$
 
 $${\textsf{\color{#1ab458}Unclosed discussions can lead cluttered forums.}}$$
