@@ -16,20 +16,15 @@ export class StaleDiscussionsValidator
   async process(
     input: StaleDiscussionsValidatorProps
   ): Promise<SimulationResult<DiscussionNode[]>> {
-    const daysBeforeClose = new Date()
-    daysBeforeClose.setDate(
-      daysBeforeClose.getDate() - this.props.daysBeforeClose
-    )
-
     if (this.props.debug) {
       core.debug(
-        `Comparing discussion dates with ${daysBeforeClose} days ago, to determine stale state`
+        `Comparing discussion dates with ${this.props.threshold}, to determine stale state`
       )
     }
 
     const staleDiscussions = input.discussions.filter(discussion => {
       const discussionUpdatedAt = new Date(discussion.updatedAt)
-      return isBefore(discussionUpdatedAt, daysBeforeClose)
+      return isBefore(discussionUpdatedAt, this.props.threshold)
     })
 
     return {

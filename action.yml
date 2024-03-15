@@ -4,15 +4,11 @@ author: 'Steffen Wirenfeldt Karlsson'
 
 inputs:
   repo-token:
-    description:
-      'Token for the repository. Can be passed in using `{{ secrets.GITHUB_TOKEN
-      }}`.'
+    description: 'Token for the repository. Can be passed in using `{{ secrets.GITHUB_TOKEN }}`.'
     required: false
     default: ${{ github.token }}
   message:
-    description:
-      'The message to post on the discussion when closing it, if any. Defaults
-      to no message.'
+    description: 'The message to post on the discussion when closing it, if any. Defaults to no message.'
     required: false
   days-before-close:
     description: 'The number of days to wait to close a stale discussion.'
@@ -23,9 +19,7 @@ inputs:
     required: false
     default: 'outdated'
   debug-only:
-    description:
-      'Run the processor in debug mode without actually performing any
-      operations on live discussions.'
+    description: 'Run the processor in debug mode without actually performing any operations on live discussions.'
     required: false
     default: 'false'
 

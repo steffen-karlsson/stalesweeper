@@ -3,7 +3,7 @@ import { DiscussionCloseReason } from './graphql-outputs'
 export interface DiscussionInputProps {
   repoToken: string
   message: string
-  daysBeforeClose: number
+  threshold: Date
   closeReason: DiscussionCloseReason
   debug: boolean
 }
