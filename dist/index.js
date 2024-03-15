@@ -29043,7 +29043,7 @@ async function run() {
         return;
     }
     if (props.debug) {
-        core.debug('Input props: ' + JSON.stringify(props.result));
+        core.debug(`Input props: ${JSON.stringify(props.result)}`);
     }
     const fetcher = new discussion_processor_1.DiscussionFetcher(props.result);
     const discussions = await fetcher.process({
@@ -29055,7 +29055,7 @@ async function run() {
         return;
     }
     if (discussions.debug) {
-        core.debug('Fetched discussions: ' + JSON.stringify(discussions.result));
+        core.debug(`Fetched discussions: ${JSON.stringify(discussions.result)}`);
     }
     const staleValidator = new stale_processor_1.StaleDiscussionsValidator(props.result);
     const staleDiscussions = await staleValidator.process({
@@ -29066,7 +29066,7 @@ async function run() {
         return;
     }
     if (staleDiscussions.debug) {
-        core.debug('Stale discussions: ' + JSON.stringify(staleDiscussions.result));
+        core.debug(`Stale discussions: ${JSON.stringify(staleDiscussions.result)}`);
     }
     const staleHandler = new handle_stale_processor_1.HandleStaleDiscussions(props.result);
     const handledStaleDiscussions = await staleHandler.process({
@@ -29079,8 +29079,7 @@ async function run() {
         return;
     }
     if (handledStaleDiscussions.debug) {
-        core.debug('Processed stale discussions: ' +
-            JSON.stringify(handledStaleDiscussions.result));
+        core.debug(`Processed stale discussions: ${JSON.stringify(handledStaleDiscussions.result)}`);
     }
     core.setOutput('stale-discussions', handledStaleDiscussions.result);
 }
@@ -29123,12 +29122,10 @@ const core = __importStar(__nccwpck_require__(2186));
 const discussion_queries_1 = __nccwpck_require__(530);
 const graphql_processor_1 = __nccwpck_require__(1076);
 class DiscussionFetcher extends graphql_processor_1.GraphqlProcessor {
-    constructor(props) {
-        super(props);
-    }
     async process(input) {
         let discussions = [];
         let cursor = null;
+        // eslint-disable-next-line no-constant-condition
         while (true) {
             if (this.props.debug) {
                 core.debug(`Fetching discussions page for ${input.owner}/${input.repo}, with cursor ${cursor}`);
@@ -29143,6 +29140,8 @@ class DiscussionFetcher extends graphql_processor_1.GraphqlProcessor {
                     error: response.error
                 };
             }
+            // Data cannot be null if error is null
+            // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
             const discussionsResponse = response.data.repository.discussions;
             discussions = discussions.concat(discussionsResponse.nodes);
             if (!discussionsResponse.pageInfo.hasNextPage) {
@@ -29254,9 +29253,6 @@ const graphql_processor_1 = __nccwpck_require__(1076);
 const discussion_queries_1 = __nccwpck_require__(530);
 const core = __importStar(__nccwpck_require__(2186));
 class HandleStaleDiscussions extends graphql_processor_1.GraphqlProcessor {
-    constructor(props) {
-        super(props);
-    }
     async process(input) {
         for (const discussion of input.discussions) {
             if (this.props.debug) {
@@ -29341,10 +29337,10 @@ class DiscussionInputProcessor {
             debug
         };
         return {
-            result: result,
+            result,
             error: this._validateProps(result),
             success: true,
-            debug: debug
+            debug
         };
     }
     _validateProps(props) {
@@ -29392,9 +29388,6 @@ const graphql_processor_1 = __nccwpck_require__(1076);
 const time_1 = __nccwpck_require__(7404);
 const core = __importStar(__nccwpck_require__(2186));
 class StaleDiscussionsValidator extends graphql_processor_1.GraphqlProcessor {
-    constructor(props) {
-        super(props);
-    }
     async process(input) {
         const daysBeforeClose = new Date();
         daysBeforeClose.setDate(daysBeforeClose.getDate() - this.props.daysBeforeClose);
