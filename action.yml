@@ -1,23 +1,37 @@
-name: 'The name of your action here'
-description: 'Provide a description here'
-author: 'Your name or organization here'
+name: 'Close Stale Discussions'
+description: 'Close discussions with no recent activity'
+author: 'Steffen Wirenfeldt Karlsson'
 
-# Add your action's branding here. This will appear on the GitHub Marketplace.
-branding:
-  icon: 'heart'
-  color: 'red'
-
-# Define your inputs here.
 inputs:
-  milliseconds:
-    description: 'Your input description here'
-    required: true
-    default: '1000'
+  repo-token:
+    description:
+      'Token for the repository. Can be passed in using `{{ secrets.GITHUB_TOKEN
+      }}`.'
+    required: false
+    default: ${{ github.token }}
+  message:
+    description:
+      'The message to post on the discussion when closing it, if any. Defaults
+      to no message.'
+    required: false
+  days-before-close:
+    description: 'The number of days to wait to close a stale discussion.'
+    required: false
+    default: '7'
+  close-reason:
+    description: 'The reason to use when closing a discussion.'
+    required: false
+    default: 'stale'
+  debug-only:
+    description:
+      'Run the processor in debug mode without actually performing any
+      operations on live discussions.'
+    required: false
+    default: 'false'
 
-# Define your outputs here.
 outputs:
-  time:
-    description: 'Your output description here'
+  closed-discussions:
+    description: 'List of all closed discussions.'
 
 runs:
   using: node20
