@@ -25,7 +25,7 @@ export class DiscussionInputProcessor
     const category = core.getInput('category')
     const closeUnanswered = core.getInput('close-unanswered') === 'true'
     const closeReason = core.getInput('close-reason')
-    const debug = core.getInput('debug') === 'true'
+    const debug = core.getInput('dry-run') === 'true'
 
     const raw: RawDiscussionInputProps = {
       repoToken,
