@@ -4,21 +4,21 @@ export function buildFetchAllDiscussionsQuery(
   cursor: string | null
 ): string {
   return `
-    query {
-      repository(owner: "${owner}", name: "${repo}") {
-        discussions(first: 20, answered: true, states: OPEN, after: ${cursor}) {
-          nodes {
-            id
-            number
-            updatedAt
-          }
-          pageInfo {
-            hasNextPage
-            endCursor
-          }
-        }
+query {
+  repository(owner: "${owner}", name: "${repo}") {
+    discussions(first: 20, answered: true, states: OPEN, after: ${cursor}) {
+      nodes {
+        id
+        number
+        updatedAt
       }
-    }`
+      pageInfo {
+        hasNextPage
+        endCursor
+      }
+    }
+  }
+}`
 }
 
 export function buildDiscussionAddCommentQuery(
@@ -26,18 +26,18 @@ export function buildDiscussionAddCommentQuery(
   message: string
 ): string {
   return `
-    mutation { 
-      addDiscussionComment(input:{body: "${message}" , discussionId: "${discussionId}"}) { 
-        comment{id} 
-      }
-    }`
+mutation {
+  addDiscussionComment(input:{body: "${message}" , discussionId: "${discussionId}"}) {
+    comment{id}
+  }
+}`
 }
 
 export function buildCloseDiscussionQuery(discussionId: string): string {
   return `
-    mutation { 
-      closeDiscussion(input:{discussionId: "${discussionId}"}) { 
-        discussion{id} 
-      } 
-    }`
+mutation {
+  closeDiscussion(input:{discussionId: "${discussionId}"}) {
+    discussion{id}
+  }
+}`
 }
