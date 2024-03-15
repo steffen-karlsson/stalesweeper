@@ -6,6 +6,12 @@
 [![CodeQL](https://github.com/actions/typescript-action/actions/workflows/codeql-analysis.yml/badge.svg)](https://github.com/actions/typescript-action/actions/workflows/codeql-analysis.yml)
 [![Coverage](./badges/coverage.svg)](./badges/coverage.svg)
 
+## Purpose
+<p align="center">
+<i>In my opinion, only the raiser of a discussion that can decide if its acceptable answered and therefor can be closed.
+Now the problem comes, when the raisers are not closing their discussions and the fora gets cluttered, what to do?</i>
+</p>
+
 ## All options
 | **Argument**      | **Description**                                                                                | **Required** | **Options**                         | **Default**           |
 |-------------------|------------------------------------------------------------------------------------------------|:------------:|-------------------------------------|-----------------------|
