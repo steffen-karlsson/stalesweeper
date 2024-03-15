@@ -1,3 +1,5 @@
+import { DiscussionCloseReason } from '../interfaces/graphql-outputs'
+
 export function buildFetchAllDiscussionsQuery(
   owner: string,
   repo: string,
@@ -33,10 +35,12 @@ mutation {
 }`
 }
 
-export function buildCloseDiscussionQuery(discussionId: string): string {
+export function buildCloseDiscussionQuery(
+  discussionId: string,
+  reason: DiscussionCloseReason): string {
   return `
 mutation {
-  closeDiscussion(input:{discussionId: "${discussionId}"}) {
+  closeDiscussion(input:{discussionId: "${discussionId}", reason: "${reason as string}"}) {
     discussion{id}
   }
 }`

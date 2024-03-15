@@ -3,6 +3,7 @@ import { DiscussionInputProps } from '../interfaces/discussion-inputs'
 import { SimulationResult } from '../interfaces/simulation-result'
 import * as core from '@actions/core'
 import { DiscussionPropsValidationError } from '../errors/discussion-props-validation-error'
+import { DiscussionCloseReason } from '../interfaces/graphql-outputs'
 
 export class DiscussionInputProcessor
   implements Processor<undefined, DiscussionInputProps>
@@ -18,7 +19,7 @@ export class DiscussionInputProcessor
       repoToken,
       message,
       daysBeforeClose,
-      closeReason,
+      closeReason: closeReason.toUpperCase() as DiscussionCloseReason,
       debug
     }
 

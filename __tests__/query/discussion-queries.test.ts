@@ -53,10 +53,10 @@ mutation {
 }`)
   })
   it('close discussion', async () => {
-    const query = buildCloseDiscussionQuery('my-discussion-id')
+    const query = buildCloseDiscussionQuery('my-discussion-id', 'OUTDATED')
     expect(query).toEqual(`
 mutation {
-  closeDiscussion(input:{discussionId: "my-discussion-id"}) {
+  closeDiscussion(input:{discussionId: "my-discussion-id", reason: "OUTDATED"}) {
     discussion{id}
   }
 }`)

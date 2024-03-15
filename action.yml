@@ -21,7 +21,7 @@ inputs:
   close-reason:
     description: 'The reason to use when closing a discussion.'
     required: false
-    default: 'stale'
+    default: 'outdated'
   debug-only:
     description:
       'Run the processor in debug mode without actually performing any

@@ -20,3 +20,9 @@ export interface WrappedQueryResponse<T> {
   data: T | null
   error?: Error
 }
+
+export type DiscussionCloseReason =
+  | 'DUPLICATE'
+  | 'OUTDATED'
+  | 'RESOLVED'
+
