@@ -2,6 +2,9 @@ name: 'StaleSweeper'
 description:
   'Automatically closes discussions that have not had recent interaction'
 author: 'Steffen Wirenfeldt Karlsson'
+branding:
+  icon: 'message-circle'
+  color: 'green'
 
 inputs:
   repo-token:
