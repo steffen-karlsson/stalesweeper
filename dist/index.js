@@ -29058,9 +29058,7 @@ async function run() {
         core.debug(`Fetched discussions: ${JSON.stringify(discussions.result)}`);
     }
     const staleValidator = new stale_processor_1.StaleDiscussionsValidator(props.result);
-    const staleDiscussions = await staleValidator.process({
-        discussions: discussions.result
-    });
+    const staleDiscussions = await staleValidator.process(discussions.result);
     if (staleDiscussions.error) {
         core.setFailed(staleDiscussions.error);
         return;
@@ -29422,11 +29420,11 @@ const graphql_processor_1 = __nccwpck_require__(1076);
 const time_1 = __nccwpck_require__(7404);
 const core = __importStar(__nccwpck_require__(2186));
 class StaleDiscussionsValidator extends graphql_processor_1.GraphqlProcessor {
-    async process(input) {
+    async process(discussions) {
         if (this.props.debug) {
             core.debug(`Comparing discussion dates with ${this.props.threshold}, to determine stale state`);
         }
-        const staleDiscussions = input.discussions.filter(discussion => {
+        const staleDiscussions = discussions.filter(discussion => {
             if (discussion.category.isAnswerable &&
                 !this.props.closeUnanswered &&
                 !discussion.isAnswered) {
