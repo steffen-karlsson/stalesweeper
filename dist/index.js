@@ -29422,7 +29422,7 @@ const core = __importStar(__nccwpck_require__(2186));
 class StaleDiscussionsValidator extends graphql_processor_1.GraphqlProcessor {
     async process(discussions) {
         if (this.props.debug) {
-            core.debug(`Comparing discussion dates with ${this.props.threshold}, to determine stale state`);
+            core.debug(`Comparing discussion dates with ${this.props.threshold.toUTCString()}, to determine stale state`);
         }
         const staleDiscussions = discussions.filter(discussion => {
             if (discussion.category.isAnswerable &&
