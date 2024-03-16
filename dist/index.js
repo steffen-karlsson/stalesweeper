@@ -29492,7 +29492,7 @@ exports.buildDiscussionAddCommentQuery = buildDiscussionAddCommentQuery;
 function buildCloseDiscussionQuery(discussionId, reason) {
     return `
 mutation {
-  closeDiscussion(input:{discussionId: "${discussionId}", reason: "${reason}"}) {
+  closeDiscussion(input:{discussionId: "${discussionId}", reason: ${reason}}) {
     discussion{id}
   }
 }`;
