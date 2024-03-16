@@ -72,6 +72,6 @@ jobs:
           days-before-close: '14'
           close-unanswered: 'false'
           category: 'Issue'
-          close-reason: 'outdated'
+          close-reason: 'OUTDATED'
           dry-run: 'false'
 ```
