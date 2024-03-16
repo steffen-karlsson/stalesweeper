@@ -1,5 +1,5 @@
-name: 'Close Stale Discussions'
-description: 'Close discussions with no recent activity'
+name: 'StaleSweeper'
+description: 'Automatically closes discussions that have not had recent interaction'
 author: 'Steffen Wirenfeldt Karlsson'
 
 inputs:
