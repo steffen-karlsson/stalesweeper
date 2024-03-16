@@ -55,7 +55,7 @@ jobs:
             exit 1
           fi
 
-      # If `dist/` was different than expected, and this was not a Dependabot
+      # If `dist/` was different from expected, and this was not a Dependabot
       # PR, upload the expected version as a workflow artifact.
       - if: ${{ failure() && steps.diff.outcome == 'failure' }}
         name: Upload Artifact

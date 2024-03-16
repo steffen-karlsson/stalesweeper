@@ -1,6 +1,7 @@
 name: 'StaleSweeper'
 description:
-  'Automatically closes discussions that have not had recent interaction'
+  'Automatically closes stale discussions to declutter your GitHub Discussion
+  space.'
 author: 'Steffen Wirenfeldt Karlsson'
 branding:
   icon: 'message-circle'
@@ -15,15 +16,16 @@ inputs:
     default: ${{ github.token }}
   message:
     description:
-      'The message to post on the discussion when closing it, if any. Defaults
-      to no message.'
+      'The message to post on the discussion when closing it. Defaults to no
+      message.'
     required: false
   days-before-close:
-    description: 'The number of days to wait to close a stale discussion.'
+    description: 'The number of days to wait before closing a stale discussion.'
     required: true
   close-unanswered:
     description:
-      'Close answerable discussions that have as not been marked as answered.'
+      'If set to `true`, stale discussions that have not been marked as answered
+      will also be closed.'
     required: false
     default: 'false'
   category:
@@ -31,19 +33,21 @@ inputs:
       'The category of discussions to close. Defaults to all discussion types'
     required: false
   close-reason:
-    description: 'The reason to use when closing a discussion.'
+    description:
+      'The reason to use when closing a discussion. Options include `DUPLICATE`,
+      `OUTDATED`, and `RESOLVED`.'
     required: false
     default: 'outdated'
   dry-run:
     description:
-      'Run the processor in debug mode without actually performing any
-      operations on live discussions.'
+      'If set to `true`, the processor will run in debug mode without performing
+      any operations on live discussions.'
     required: false
     default: 'false'
 
 outputs:
   closed-discussions:
-    description: 'List of all closed discussions.'
+    description: 'Provides a list of all discussions that were closed.'
 
 runs:
   using: node20
