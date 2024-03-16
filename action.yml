@@ -32,8 +32,9 @@ inputs:
       'The category of discussions to close. Defaults to all discussion types'
     required: false
   close-reason:
-    description: 'The reason to use when closing a discussion. Options include 
-    `DUPLICATE`, `OUTDATED`, and `RESOLVED`.'
+    description:
+      'The reason to use when closing a discussion. Options include 
+      `DUPLICATE`, `OUTDATED`, and `RESOLVED`.'
     required: false
     default: 'outdated'
   dry-run:
