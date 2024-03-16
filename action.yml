@@ -15,8 +15,8 @@ inputs:
     default: ${{ github.token }}
   message:
     description:
-      'The message to post on the discussion when closing it. Defaults
-      to no message.'
+      'The message to post on the discussion when closing it. Defaults to no
+      message.'
     required: false
   days-before-close:
     description: 'The number of days to wait before closing a stale discussion.'
@@ -33,14 +33,14 @@ inputs:
     required: false
   close-reason:
     description:
-      'The reason to use when closing a discussion. Options include 
-      `DUPLICATE`, `OUTDATED`, and `RESOLVED`.'
+      'The reason to use when closing a discussion. Options include `DUPLICATE`,
+      `OUTDATED`, and `RESOLVED`.'
     required: false
     default: 'outdated'
   dry-run:
     description:
       'If set to `true`, the processor will run in debug mode without performing
-       any operations on live discussions.'
+      any operations on live discussions.'
     required: false
     default: 'false'
 
