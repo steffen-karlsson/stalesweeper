@@ -29,8 +29,8 @@ $${\textsf{\color{#1ab458}StaleSweeper is the solution for persistent open discu
 
 For the execution of this action, it must be able to fetch all discussions from
 your repository. For this you'll need to provide a `repo-token` with the
-necessary permissions. If using the default repository `GITHUB_TOKEN`, you'll need to
-add following permission to your workflow:
+necessary permissions. If using the default repository `GITHUB_TOKEN`, you'll
+need to add following permission to your workflow:
 
 ```yaml
 permissions:
