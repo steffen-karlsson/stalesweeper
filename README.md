@@ -7,11 +7,11 @@
 
 ## Purpose
 
-<p style="color: #1ab458;"><strong>Initiators should be responsible for closing discussions.</strong></p>
+$${\textsf{\color{#1ab458}Initiators should be responsible for closing discussions.}}$$
 
-<p style="color: #1ab458;"><strong>Discussions left open can lead to cluttered forums.</strong></p>
+$${\textsf{\color{#1ab458}Discussions left open can lead to cluttered forums.}}$$
 
-<p style="color: #1ab458;"><strong>StaleSweeper provides a solution for de-cluttering your GitHub discussions.</strong></p>
+$${\textsf{\color{#1ab458}StaleSweeper provides a solution for de-cluttering your GitHub discussions.}}$$
 
 ## All options
 
