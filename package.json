@@ -1,6 +1,6 @@
 {
   "name": "stalesweeper",
-  "description": "StaleSweeper - Automatically closes stale discussions to declutter your GitHub fora.",
+  "description": "StaleSweeper - Automatically closes stale discussions to declutter your GitHub Discussion space.",
   "version": "1.0.0",
   "author": "Steffen Wirenfeldt Karlsson",
   "private": true,
