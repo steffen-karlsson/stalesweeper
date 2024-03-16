@@ -4,8 +4,10 @@ on:
   workflow_dispatch:
 
 jobs:
-  test:
+  local:
     runs-on: ubuntu-latest
+    permissions:
+      discussions: write
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
