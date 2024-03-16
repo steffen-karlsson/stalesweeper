@@ -1,7 +1,7 @@
 {
   "name": "stale-discussions",
   "description": "Close discussions with no recent activity",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "author": "Steffen Wirenfeldt Karlsson",
   "private": true,
   "homepage": "https://github.com/steffen-karlsson/stale-discussions",
