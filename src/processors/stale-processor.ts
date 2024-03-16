@@ -18,7 +18,7 @@ export class StaleDiscussionsValidator
   ): Promise<SimulationResult<DiscussionNode[]>> {
     if (this.props.debug) {
       core.debug(
-        `Comparing discussion dates with ${this.props.threshold}, to determine stale state`
+        `Comparing discussion dates with ${this.props.threshold.toUTCString()}, to determine stale state`
       )
     }
 
