@@ -25,6 +25,21 @@ $${\textsf{\color{#1ab458}StaleSweeper is the solution for persistent open discu
 | close-reason      | The reason to use when closing a discussion                                                    |      No      | `DUPLICATE`, `OUTDATED`, `RESOLVED` | `OUTDATED`            |
 | dry-run           | Run the processor in debug mode without actually performing any operations on live discussions |      No      | `true`, `false`                     | `false`               |
 
+## Permissions
+For the execution of this action, it must be able to fetch all discussions from your repository. For this you'll need to provide a `repo-token` with the necessary permissions.
+If using the default repo `GITHUB_TOKEN`, you'll need to add following permission to your workflow:
+```yaml
+permissions:
+  discussions: read
+```
+
+In addition, based on the provided configuration, the action could require more permission(s) (e.g.: add comment etc.).
+For this you might need to extend the permissions in your workflow:
+```yaml
+permissions:
+  discussions: write
+```
+
 ## Example
 
 Example of a workflow that runs the action every day at midnight UTC, closes all
