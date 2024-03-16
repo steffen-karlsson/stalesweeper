@@ -29268,7 +29268,7 @@ class HandleStaleDiscussions extends graphql_processor_1.GraphqlProcessor {
                     };
                 }
             }
-            const closeResponse = await this.authedGraphQL((0, discussion_queries_1.buildCloseDiscussionQuery)(discussion.id, this.props.closeReason));
+            const closeResponse = await this.executeQuery((0, discussion_queries_1.buildCloseDiscussionQuery)(discussion.id, this.props.closeReason));
             if (closeResponse.error) {
                 return {
                     result: [],
