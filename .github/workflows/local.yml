@@ -21,7 +21,7 @@ jobs:
         with:
           repo-token: ${{ secrets.GITHUB_TOKEN }}
           message: 'This discussion has been closed due to inactivity.'
-          days-before-close: '1'
+          days-before-close: '0'
           close-unanswered: 'false'
           close-reason: 'OUTDATED'
           dry-run: 'false'
