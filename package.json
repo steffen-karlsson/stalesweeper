@@ -1,16 +1,16 @@
 {
-  "name": "stale-discussions",
-  "description": "StaleSweeper - Automatically closes discussions that have not had recent interaction",
+  "name": "stalesweeper",
+  "description": "StaleSweeper - Automatically closes stale discussions to declutter your GitHub repository.",
   "version": "1.0.0",
   "author": "Steffen Wirenfeldt Karlsson",
   "private": true,
-  "homepage": "https://github.com/steffen-karlsson/stale-discussions",
+  "homepage": "https://github.com/steffen-karlsson/stalesweeper",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/steffen-karlsson/stale-discussions.git"
+    "url": "git+https://github.com/steffen-karlsson/stalesweeper.git"
   },
   "bugs": {
-    "url": "https://github.com/steffen-karlsson/stale-discussions/issues"
+    "url": "https://github.com/steffen-karlsson/stalesweeper/issues"
   },
   "keywords": [
     "actions",

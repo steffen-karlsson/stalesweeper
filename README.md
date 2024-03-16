@@ -1,4 +1,4 @@
-[![Stale Discussions](./logo/banner.png)](https://github.com/steffen-karlsson/stale-discussions/)
+[![Stale Discussions](./logo/banner.png)](https://github.com/steffen-karlsson/stalesweeper/)
 
 [![GitHub Super-Linter](https://github.com/steffen-karlsson/stalesweeper/actions/workflows/linter.yml/badge.svg)](https://github.com/super-linter/super-linter)
 ![CI](https://github.com/steffen-karlsson/stalesweeper/actions/workflows/ci.yml/badge.svg)
