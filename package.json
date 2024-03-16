@@ -1,6 +1,6 @@
 {
   "name": "stale-discussions",
-  "description": "Close discussions with no recent activity",
+  "description": "StaleSweeper - Automatically closes discussions that have not had recent interaction",
   "version": "1.0.0",
   "author": "Steffen Wirenfeldt Karlsson",
   "private": true,
