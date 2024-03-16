@@ -1,6 +1,6 @@
 name: 'StaleSweeper'
 description:
-  'Automatically closes stale discussions to declutter your GitHub repository.'
+  'Automatically closes stale discussions to declutter your GitHub fora.'
 author: 'Steffen Wirenfeldt Karlsson'
 branding:
   icon: 'message-circle'
