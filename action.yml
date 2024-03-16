@@ -1,5 +1,6 @@
 name: 'StaleSweeper'
-description: 'Automatically closes discussions that have not had recent interaction'
+description:
+  'Automatically closes discussions that have not had recent interaction'
 author: 'Steffen Wirenfeldt Karlsson'
 
 inputs:
