@@ -6,12 +6,12 @@
 [![CodeQL](https://github.com/steffen-karlsson/stalesweeper/actions/workflows/codeql-analysis.yml/badge.svg)](https://github.com/actions/typescript-action/actions/workflows/codeql-analysis.yml)
 
 ## Purpose
+<p style="color: #1ab458;"><strong>The responsibility of closing a discussion should lie with the initiator.</strong></p>
 
-$${\textsf{\color{#1ab458}Discussion closure should rest with the initiator.}}$$
+<p style="color: #1ab458;"><strong>Discussions left open can result in cluttered forums.</strong></p>
 
-$${\textsf{\color{#1ab458}Unclosed discussions can lead cluttered forums.}}$$
+<p style="color: #1ab458;"><strong>StaleSweeper provides a solution for de-cluttering your GitHub discussions.</strong></p>
 
-$${\textsf{\color{#1ab458}StaleSweeper is the solution for persistent open discussions.}}$$
 
 ## All options
 
