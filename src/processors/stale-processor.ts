@@ -11,10 +11,10 @@ export interface StaleDiscussionsValidatorProps {
 
 export class StaleDiscussionsValidator
   extends GraphqlProcessor
-  implements Processor<StaleDiscussionsValidatorProps, DiscussionNode[]>
+  implements Processor<DiscussionNode[], DiscussionNode[]>
 {
   async process(
-    input: StaleDiscussionsValidatorProps
+    discussions: DiscussionNode[]
   ): Promise<SimulationResult<DiscussionNode[]>> {
     if (this.props.debug) {
       core.debug(
@@ -22,7 +22,7 @@ export class StaleDiscussionsValidator
       )
     }
 
-    const staleDiscussions = input.discussions.filter(discussion => {
+    const staleDiscussions = discussions.filter(discussion => {
       if (
         discussion.category.isAnswerable &&
         !this.props.closeUnanswered &&

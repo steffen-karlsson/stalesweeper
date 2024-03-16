@@ -14,7 +14,7 @@ export interface DiscussionNode {
   id: string
   number: number
   updatedAt: string
-  isAnswered: boolean
+  isAnswered: boolean | null
   category: DiscussionCategory
 }
 

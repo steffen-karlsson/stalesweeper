@@ -36,9 +36,7 @@ export async function run(): Promise<void> {
   }
 
   const staleValidator = new StaleDiscussionsValidator(props.result!)
-  const staleDiscussions = await staleValidator.process({
-    discussions: discussions.result
-  })
+  const staleDiscussions = await staleValidator.process(discussions.result)
 
   if (staleDiscussions.error) {
     core.setFailed(staleDiscussions.error)
