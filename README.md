@@ -6,17 +6,17 @@
 [![CodeQL](https://github.com/steffen-karlsson/stalesweeper/actions/workflows/codeql-analysis.yml/badge.svg)](https://github.com/actions/typescript-action/actions/workflows/codeql-analysis.yml)
 
 ## Purpose
+
 <p style="color: #1ab458;"><strong>The responsibility of closing a discussion should lie with the initiator.</strong></p>
 
 <p style="color: #1ab458;"><strong>Discussions left open can result in cluttered forums.</strong></p>
 
 <p style="color: #1ab458;"><strong>StaleSweeper provides a solution for de-cluttering your GitHub discussions.</strong></p>
 
-
 ## All options
 
 | **Argument**      | **Description**                                                                                | **Required** | **Options**                         | **Default**           |
-| ----------------- | ---------------------------------------------------------------------------------------------- | :----------: | ----------------------------------- | --------------------- |
+|-------------------|------------------------------------------------------------------------------------------------|:------------:|-------------------------------------|-----------------------|
 | repo-token        | Token for the repository. Can be passed in using `{{ secrets.GITHUB_TOKEN }}`.                 |      No      |                                     | `${{ github.token }}` |
 | message           | The message to post on the discussion when closing it.                                         |      No      |                                     |                       |
 | days-before-close | The number of days to wait to close a stale discussion.                                        |     Yes      |                                     |                       |
