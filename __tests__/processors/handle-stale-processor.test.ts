@@ -17,6 +17,7 @@ describe('HandleStaleDiscussions', () => {
       category: undefined,
       closeUnanswered: false,
       closeReason: 'OUTDATED',
+      verbose: false,
       debug: false
     })
   })
@@ -100,8 +101,9 @@ describe('HandleStaleDiscussions', () => {
     expect(result.debug).toBe(false)
     expect(result.error).toEqual({ name: 'ErrorType', message: 'ErrorMessage' })
   })
-  it('should handle debug mode correctly', async () => {
+  it('should handle debug and verbose mode correctly', async () => {
     processor.props.debug = true
+    processor.props.verbose = true
 
     const discussions: DiscussionNode[] = [
       {

@@ -17,6 +17,7 @@ describe('StaleDiscussionsValidator', () => {
       category: 'category',
       closeUnanswered: false,
       closeReason: 'OUTDATED',
+      verbose: false,
       debug: false
     })
   })
@@ -128,8 +129,9 @@ describe('StaleDiscussionsValidator', () => {
     expect(resultWithUnclosed.debug).toBe(false)
     expect(resultWithUnclosed.result).toHaveLength(2)
   })
-  it('should handle debug mode correctly', async () => {
+  it('should handle debug and verbose mode correctly', async () => {
     validator.props.debug = true
+    validator.props.verbose = true
     debugMock = jest.spyOn(core, 'debug').mockImplementation()
 
     const result = await validator.process([])
