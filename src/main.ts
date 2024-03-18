@@ -23,15 +23,15 @@ export async function run(): Promise<void> {
   }
 
   const inputProps = props.result!
-  const beforeRateLimit = new GitHubRateLimitFetcher(inputProps)
-  const rateLimit = await beforeRateLimit.process()
-  if (rateLimit.error) {
-    core.setFailed(rateLimit.error)
+  const rateLimit = new GitHubRateLimitFetcher(inputProps)
+  const beforeRateLimit = await rateLimit.process()
+  if (beforeRateLimit.error) {
+    core.setFailed(beforeRateLimit.error)
     return
   }
   if (inputProps.verbose) {
     core.debug(
-      `Rate limit before execution: ${JSON.stringify(rateLimit.result)}`
+      `Rate limit before execution: ${JSON.stringify(beforeRateLimit.result)}`
     )
   }
 
@@ -74,6 +74,17 @@ export async function run(): Promise<void> {
   if (inputProps.verbose) {
     core.debug(
       `Processed stale discussions: ${JSON.stringify(handledStaleDiscussions.result)}`
+    )
+  }
+
+  const afterRateLimit = await rateLimit.process()
+  if (afterRateLimit.error) {
+    core.setFailed(afterRateLimit.error)
+    return
+  }
+  if (inputProps.verbose) {
+    core.debug(
+      `Rate limit after execution: ${JSON.stringify(afterRateLimit.result)}`
     )
   }
 
