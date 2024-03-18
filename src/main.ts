@@ -21,7 +21,18 @@ export async function run(): Promise<void> {
     core.debug(`Input props: ${JSON.stringify(props.result)}`)
   }
 
-  const fetcher = new DiscussionFetcher(props.result!)
+  const inputProps = props.result!
+  const beforeRateLimit = new GitHubRateLimitFetcher(inputProps);
+  const rateLimit = await beforeRateLimit.process()
+  if (rateLimit.error) {
+    core.setFailed(rateLimit.error)
+    return
+  }
+  if (inputProps.verbose) {
+    core.debug(`Rate limit before execution: ${JSON.stringify(rateLimit.result)}`)
+  }
+
+  const fetcher = new DiscussionFetcher(inputProps)
   const discussions = await fetcher.process({
     owner: context.repo.owner,
     repo: context.repo.repo
