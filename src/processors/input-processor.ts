@@ -31,7 +31,7 @@ export class DiscussionInputProcessor
       message,
       daysBeforeClose,
       category,
-      closeReason: closeReason.toUpperCase(),
+      closeReason: closeReason.toUpperCase()
     }
 
     const threshold = new Date()

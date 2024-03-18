@@ -23,14 +23,16 @@ export async function run(): Promise<void> {
   }
 
   const inputProps = props.result!
-  const beforeRateLimit = new GitHubRateLimitFetcher(inputProps);
+  const beforeRateLimit = new GitHubRateLimitFetcher(inputProps)
   const rateLimit = await beforeRateLimit.process()
   if (rateLimit.error) {
     core.setFailed(rateLimit.error)
     return
   }
   if (inputProps.verbose) {
-    core.debug(`Rate limit before execution: ${JSON.stringify(rateLimit.result)}`)
+    core.debug(
+      `Rate limit before execution: ${JSON.stringify(rateLimit.result)}`
+    )
   }
 
   const fetcher = new DiscussionFetcher(inputProps)
