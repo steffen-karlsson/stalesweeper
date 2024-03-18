@@ -10,9 +10,7 @@ interface RawDiscussionInputProps {
   message: string
   daysBeforeClose: number
   category: string | undefined
-  closeUnanswered: boolean
   closeReason: string
-  debug: boolean
 }
 
 export class DiscussionInputProcessor
@@ -25,6 +23,7 @@ export class DiscussionInputProcessor
     const category = core.getInput('category')
     const closeUnanswered = core.getInput('close-unanswered') === 'true'
     const closeReason = core.getInput('close-reason')
+    const verbose = core.getInput('verbose') === 'true'
     const debug = core.getInput('dry-run') === 'true'
 
     const raw: RawDiscussionInputProps = {
@@ -32,9 +31,7 @@ export class DiscussionInputProcessor
       message,
       daysBeforeClose,
       category,
-      closeUnanswered,
       closeReason: closeReason.toUpperCase(),
-      debug
     }
 
     const threshold = new Date()
@@ -59,6 +56,7 @@ export class DiscussionInputProcessor
         category: category === '' ? undefined : category,
         closeUnanswered,
         closeReason: closeReason as DiscussionCloseReason,
+        verbose,
         debug
       } as DiscussionInputProps,
       success: true,
