@@ -37,7 +37,7 @@ export abstract class GraphqlProcessor {
         }
       } else if (error instanceof Error) {
         errorResponse = {
-          name: 'UnknownError',
+          name: error.name,
           message: error.message
         }
       }

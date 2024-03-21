@@ -15,15 +15,16 @@ $${\textsf{\color{#1ab458}StaleSweeper provides a solution for de-cluttering you
 
 ## All options
 
-| **Argument**      | **Description**                                                                                               | **Required** | **Options**                         | **Default**           |
-| ----------------- | ------------------------------------------------------------------------------------------------------------- | :----------: | ----------------------------------- | --------------------- |
-| repo-token        | Token for the repository. Can be passed in using `{{ secrets.GITHUB_TOKEN }}`.                                |      No      |                                     | `${{ github.token }}` |
-| message           | The message to post on the discussion when closing it. This can be customized as per your requirements.       |      No      |                                     |                       |
-| days-before-close | The number of days to wait before closing a stale discussion. This is a required field.                       |     Yes      |                                     |                       |
-| close-unanswered  | If set to `true`, stale discussions that have not been marked as answered will also be closed.                |      No      | `true`, `false`                     | `false`               |
-| category          | The category of discussions to close. If not specified, all categories will be considered.                    |      No      |                                     | All, no filtering     |
-| close-reason      | The reason to use when closing a discussion.                                                                  |      No      | `DUPLICATE`, `OUTDATED`, `RESOLVED` | `OUTDATED`            |
-| dry-run           | If set to `true`, the processor will run in debug mode without performing any operations on live discussions. |      No      | `true`, `false`                     | `false`               |
+| **Argument**      | **Description**                                                                                                              | **Required** | **Options**                         | **Default**           |
+| ----------------- | ---------------------------------------------------------------------------------------------------------------------------- | :----------: | ----------------------------------- | --------------------- |
+| repo-token        | Token for the repository. Can be passed in using `{{ secrets.GITHUB_TOKEN }}`.                                               |      No      |                                     | `${{ github.token }}` |
+| message           | The message to post on the discussion when closing it. This can be customized as per your requirements.                      |      No      |                                     |                       |
+| days-before-close | The number of days to wait before closing a stale discussion. This is a required field.                                      |     Yes      |                                     |                       |
+| close-unanswered  | If set to `true`, stale discussions that have not been marked as answered will also be closed.                               |      No      | `true`, `false`                     | `false`               |
+| category          | The category of discussions to close. If not specified, all categories will be considered.                                   |      No      |                                     | All, no filtering     |
+| close-reason      | The reason to use when closing a discussion.                                                                                 |      No      | `DUPLICATE`, `OUTDATED`, `RESOLVED` | `OUTDATED`            |
+| dry-run           | If set to `true`, the processor will run in debug mode without performing any operations on live discussions.                |      No      | `true`, `false`                     | `false`               |
+| verbose           | If set to `true`, the processor will print out relevant information on all steps, including usage of GitHub API rate limits. |      No      | `true`, `false`                     | `false`               |
 
 ## Permissions
 

@@ -44,6 +44,12 @@ inputs:
       any operations on live discussions.'
     required: false
     default: 'false'
+  verbose:
+    description:
+      'If set to `true`, the processor will print out relevant information on
+      all steps, including usage of GitHub API rate limits.'
+    required: false
+    default: 'false'
 
 outputs:
   closed-discussions:

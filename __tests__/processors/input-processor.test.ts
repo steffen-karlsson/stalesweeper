@@ -32,6 +32,8 @@ describe('DiscussionInputProcessor', () => {
           return 'DUPLICATE'
         case 'dry-run':
           return 'true'
+        case 'verbose':
+          return 'false'
         default:
           return ''
       }

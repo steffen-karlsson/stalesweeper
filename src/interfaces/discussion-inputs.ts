@@ -7,5 +7,6 @@ export interface DiscussionInputProps {
   category: string | undefined
   closeUnanswered: boolean
   closeReason: DiscussionCloseReason
+  verbose: boolean
   debug: boolean
 }

@@ -29031,6 +29031,7 @@ const discussion_processor_1 = __nccwpck_require__(7389);
 const input_processor_1 = __nccwpck_require__(9695);
 const stale_processor_1 = __nccwpck_require__(6732);
 const handle_stale_processor_1 = __nccwpck_require__(4730);
+const ratelimit_processor_1 = __nccwpck_require__(8802);
 /**
  * The main function for the action.
  * @returns {Promise<void>} Resolves when the action is complete.
@@ -29045,7 +29046,17 @@ async function run() {
     if (props.debug) {
         core.debug(`Input props: ${JSON.stringify(props.result)}`);
     }
-    const fetcher = new discussion_processor_1.DiscussionFetcher(props.result);
+    const inputProps = props.result;
+    const rateLimit = new ratelimit_processor_1.GitHubRateLimitFetcher(inputProps);
+    const beforeRateLimit = await rateLimit.process();
+    if (beforeRateLimit.error) {
+        core.setFailed(beforeRateLimit.error);
+        return;
+    }
+    if (inputProps.verbose) {
+        core.debug(`Rate limit before execution: ${JSON.stringify(beforeRateLimit.result)}`);
+    }
+    const fetcher = new discussion_processor_1.DiscussionFetcher(inputProps);
     const discussions = await fetcher.process({
         owner: github_1.context.repo.owner,
         repo: github_1.context.repo.repo
@@ -29054,19 +29065,19 @@ async function run() {
         core.setFailed(discussions.error);
         return;
     }
-    if (discussions.debug) {
+    if (inputProps.verbose) {
         core.debug(`Fetched discussions: ${JSON.stringify(discussions.result)}`);
     }
-    const staleValidator = new stale_processor_1.StaleDiscussionsValidator(props.result);
+    const staleValidator = new stale_processor_1.StaleDiscussionsValidator(inputProps);
     const staleDiscussions = await staleValidator.process(discussions.result);
     if (staleDiscussions.error) {
         core.setFailed(staleDiscussions.error);
         return;
     }
-    if (staleDiscussions.debug) {
+    if (inputProps.verbose) {
         core.debug(`Stale discussions: ${JSON.stringify(staleDiscussions.result)}`);
     }
-    const staleHandler = new handle_stale_processor_1.HandleStaleDiscussions(props.result);
+    const staleHandler = new handle_stale_processor_1.HandleStaleDiscussions(inputProps);
     const handledStaleDiscussions = await staleHandler.process({
         discussions: staleDiscussions.result,
         owner: github_1.context.repo.owner,
@@ -29076,8 +29087,16 @@ async function run() {
         core.setFailed(handledStaleDiscussions.error);
         return;
     }
-    if (handledStaleDiscussions.debug) {
+    if (inputProps.verbose) {
         core.debug(`Processed stale discussions: ${JSON.stringify(handledStaleDiscussions.result)}`);
+    }
+    const afterRateLimit = await rateLimit.process();
+    if (afterRateLimit.error) {
+        core.setFailed(afterRateLimit.error);
+        return;
+    }
+    if (inputProps.verbose) {
+        core.debug(`Rate limit after execution: ${JSON.stringify(afterRateLimit.result)}`);
     }
     core.setOutput('stale-discussions', handledStaleDiscussions.result);
 }
@@ -29125,8 +29144,10 @@ class DiscussionFetcher extends graphql_processor_1.GraphqlProcessor {
         let cursor = null;
         // eslint-disable-next-line no-constant-condition
         while (true) {
-            if (this.props.debug) {
+            if (this.props.verbose) {
                 core.debug(`Fetching discussions page for ${input.owner}/${input.repo}, with cursor ${cursor}`);
+            }
+            if (this.props.debug) {
                 break;
             }
             const response = await this.executeQuery((0, discussion_queries_1.buildFetchAllDiscussionsQuery)(input.owner, input.repo, cursor));
@@ -29201,7 +29222,7 @@ class GraphqlProcessor {
             }
             else if (error instanceof Error) {
                 errorResponse = {
-                    name: 'UnknownError',
+                    name: error.name,
                     message: error.message
                 };
             }
@@ -29253,8 +29274,10 @@ const core = __importStar(__nccwpck_require__(2186));
 class HandleStaleDiscussions extends graphql_processor_1.GraphqlProcessor {
     async process(input) {
         for (const discussion of input.discussions) {
-            if (this.props.debug) {
+            if (this.props.verbose) {
                 core.debug(`Adding comment and closing discussion with id #${discussion.number}`);
+            }
+            if (this.props.debug) {
                 continue;
             }
             if (this.props.message && this.props.message !== '') {
@@ -29330,15 +29353,14 @@ class DiscussionInputProcessor {
         const category = core.getInput('category');
         const closeUnanswered = core.getInput('close-unanswered') === 'true';
         const closeReason = core.getInput('close-reason');
+        const verbose = core.getInput('verbose') === 'true';
         const debug = core.getInput('dry-run') === 'true';
         const raw = {
             repoToken,
             message,
             daysBeforeClose,
             category,
-            closeUnanswered,
-            closeReason: closeReason.toUpperCase(),
-            debug
+            closeReason: closeReason.toUpperCase()
         };
         const threshold = new Date();
         threshold.setDate(threshold.getDate() - daysBeforeClose);
@@ -29361,6 +29383,7 @@ class DiscussionInputProcessor {
                 category: category === '' ? undefined : category,
                 closeUnanswered,
                 closeReason: closeReason,
+                verbose,
                 debug
             },
             success: true,
@@ -29382,6 +29405,72 @@ class DiscussionInputProcessor {
     }
 }
 exports.DiscussionInputProcessor = DiscussionInputProcessor;
+
+
+/***/ }),
+
+/***/ 8802:
+/***/ (function(__unused_webpack_module, exports, __nccwpck_require__) {
+
+"use strict";
+
+var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    var desc = Object.getOwnPropertyDescriptor(m, k);
+    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
+      desc = { enumerable: true, get: function() { return m[k]; } };
+    }
+    Object.defineProperty(o, k2, desc);
+}) : (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    o[k2] = m[k];
+}));
+var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
+    Object.defineProperty(o, "default", { enumerable: true, value: v });
+}) : function(o, v) {
+    o["default"] = v;
+});
+var __importStar = (this && this.__importStar) || function (mod) {
+    if (mod && mod.__esModule) return mod;
+    var result = {};
+    if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
+    __setModuleDefault(result, mod);
+    return result;
+};
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.GitHubRateLimitFetcher = void 0;
+const core = __importStar(__nccwpck_require__(2186));
+const graphql_processor_1 = __nccwpck_require__(1076);
+const ratelimit_queries_1 = __nccwpck_require__(2730);
+class GitHubRateLimitFetcher extends graphql_processor_1.GraphqlProcessor {
+    async process() {
+        if (this.props.verbose) {
+            core.debug('Fetching rate limit');
+        }
+        if (this.props.debug) {
+            return {
+                result: { data: { rateLimit: { limit: -1, remaining: -1 } } },
+                success: true,
+                debug: true
+            };
+        }
+        const response = await this.executeQuery((0, ratelimit_queries_1.buildFetchRateLimitQuery)());
+        if (response.error) {
+            return {
+                result: { data: { rateLimit: { limit: -1, remaining: -1 } } },
+                success: false,
+                debug: this.props.debug,
+                error: response.error
+            };
+        }
+        return {
+            result: response.data,
+            success: true,
+            debug: this.props.debug
+        };
+    }
+}
+exports.GitHubRateLimitFetcher = GitHubRateLimitFetcher;
 
 
 /***/ }),
@@ -29421,7 +29510,7 @@ const time_1 = __nccwpck_require__(7404);
 const core = __importStar(__nccwpck_require__(2186));
 class StaleDiscussionsValidator extends graphql_processor_1.GraphqlProcessor {
     async process(discussions) {
-        if (this.props.debug) {
+        if (this.props.verbose) {
             core.debug(`Comparing discussion dates with ${this.props.threshold.toUTCString()}, to determine stale state`);
         }
         const staleDiscussions = discussions.filter(discussion => {
@@ -29498,6 +29587,27 @@ mutation {
 }`;
 }
 exports.buildCloseDiscussionQuery = buildCloseDiscussionQuery;
+
+
+/***/ }),
+
+/***/ 2730:
+/***/ ((__unused_webpack_module, exports) => {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.buildFetchRateLimitQuery = void 0;
+function buildFetchRateLimitQuery() {
+    return `
+query {
+  rateLimit {
+    limit
+    remaining
+  }
+}`;
+}
+exports.buildFetchRateLimitQuery = buildFetchRateLimitQuery;
 
 
 /***/ }),

@@ -4,7 +4,7 @@ import {
   buildFetchAllDiscussionsQuery
 } from '../../src/query/discussion-queries'
 
-describe('queries', () => {
+describe('discussion queries', () => {
   it('generate fetch all discussions', async () => {
     const query = buildFetchAllDiscussionsQuery('my-owner', 'my-repo', null)
     expect(query).toEqual(`

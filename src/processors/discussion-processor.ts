@@ -26,10 +26,13 @@ export class DiscussionFetcher
 
     // eslint-disable-next-line no-constant-condition
     while (true) {
-      if (this.props.debug) {
+      if (this.props.verbose) {
         core.debug(
           `Fetching discussions page for ${input.owner}/${input.repo}, with cursor ${cursor}`
         )
+      }
+
+      if (this.props.debug) {
         break
       }
 

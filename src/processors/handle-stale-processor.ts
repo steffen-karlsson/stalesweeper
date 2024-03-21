@@ -26,10 +26,13 @@ export class HandleStaleDiscussions
     input: HandleStaleDiscussionsProps
   ): Promise<SimulationResult<DiscussionNode[]>> {
     for (const discussion of input.discussions) {
-      if (this.props.debug) {
+      if (this.props.verbose) {
         core.debug(
           `Adding comment and closing discussion with id #${discussion.number}`
         )
+      }
+
+      if (this.props.debug) {
         continue
       }
 

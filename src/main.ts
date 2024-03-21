@@ -4,6 +4,7 @@ import { DiscussionFetcher } from './processors/discussion-processor'
 import { DiscussionInputProcessor } from './processors/input-processor'
 import { StaleDiscussionsValidator } from './processors/stale-processor'
 import { HandleStaleDiscussions } from './processors/handle-stale-processor'
+import { GitHubRateLimitFetcher } from './processors/ratelimit-processor'
 
 /**
  * The main function for the action.
@@ -21,7 +22,20 @@ export async function run(): Promise<void> {
     core.debug(`Input props: ${JSON.stringify(props.result)}`)
   }
 
-  const fetcher = new DiscussionFetcher(props.result!)
+  const inputProps = props.result!
+  const rateLimit = new GitHubRateLimitFetcher(inputProps)
+  const beforeRateLimit = await rateLimit.process()
+  if (beforeRateLimit.error) {
+    core.setFailed(beforeRateLimit.error)
+    return
+  }
+  if (inputProps.verbose) {
+    core.debug(
+      `Rate limit before execution: ${JSON.stringify(beforeRateLimit.result)}`
+    )
+  }
+
+  const fetcher = new DiscussionFetcher(inputProps)
   const discussions = await fetcher.process({
     owner: context.repo.owner,
     repo: context.repo.repo
@@ -31,22 +45,22 @@ export async function run(): Promise<void> {
     core.setFailed(discussions.error)
     return
   }
-  if (discussions.debug) {
+  if (inputProps.verbose) {
     core.debug(`Fetched discussions: ${JSON.stringify(discussions.result)}`)
   }
 
-  const staleValidator = new StaleDiscussionsValidator(props.result!)
+  const staleValidator = new StaleDiscussionsValidator(inputProps)
   const staleDiscussions = await staleValidator.process(discussions.result)
 
   if (staleDiscussions.error) {
     core.setFailed(staleDiscussions.error)
     return
   }
-  if (staleDiscussions.debug) {
+  if (inputProps.verbose) {
     core.debug(`Stale discussions: ${JSON.stringify(staleDiscussions.result)}`)
   }
 
-  const staleHandler = new HandleStaleDiscussions(props.result!)
+  const staleHandler = new HandleStaleDiscussions(inputProps)
   const handledStaleDiscussions = await staleHandler.process({
     discussions: staleDiscussions.result,
     owner: context.repo.owner,
@@ -57,9 +71,20 @@ export async function run(): Promise<void> {
     core.setFailed(handledStaleDiscussions.error)
     return
   }
-  if (handledStaleDiscussions.debug) {
+  if (inputProps.verbose) {
     core.debug(
       `Processed stale discussions: ${JSON.stringify(handledStaleDiscussions.result)}`
+    )
+  }
+
+  const afterRateLimit = await rateLimit.process()
+  if (afterRateLimit.error) {
+    core.setFailed(afterRateLimit.error)
+    return
+  }
+  if (inputProps.verbose) {
+    core.debug(
+      `Rate limit after execution: ${JSON.stringify(afterRateLimit.result)}`
     )
   }
 

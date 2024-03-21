@@ -29,3 +29,12 @@ export interface WrappedQueryResponse<T> {
 }
 
 export type DiscussionCloseReason = 'DUPLICATE' | 'OUTDATED' | 'RESOLVED'
+
+export interface GitHubRateLimit {
+  data: {
+    rateLimit: {
+      limit: number
+      remaining: number
+    }
+  }
+}
