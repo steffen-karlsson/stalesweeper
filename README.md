@@ -16,7 +16,7 @@ $${\textsf{\color{#1ab458}StaleSweeper provides a solution for de-cluttering you
 ## All options
 
 | **Argument**      | **Description**                                                                                                              | **Required** | **Options**                         | **Default**           |
-| ----------------- | ---------------------------------------------------------------------------------------------------------------------------- | :----------: | ----------------------------------- | --------------------- |
+|-------------------|------------------------------------------------------------------------------------------------------------------------------|:------------:|-------------------------------------|-----------------------|
 | repo-token        | Token for the repository. Can be passed in using `{{ secrets.GITHUB_TOKEN }}`.                                               |      No      |                                     | `${{ github.token }}` |
 | message           | The message to post on the discussion when closing it. This can be customized as per your requirements.                      |      No      |                                     |                       |
 | days-before-close | The number of days to wait before closing a stale discussion. This is a required field.                                      |     Yes      |                                     |                       |
@@ -66,7 +66,7 @@ jobs:
 
     steps:
       - name: Run action
-        uses: steffen-karlsson/stalesweeper@@v1.1.0
+        uses: steffen-karlsson/stalesweeper@v1.1.0
         with:
           repo-token: ${{ secrets.GITHUB_TOKEN }}
           message: 'This discussion has been closed due to inactivity.'
