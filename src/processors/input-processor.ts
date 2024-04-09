@@ -55,7 +55,7 @@ export class DiscussionInputProcessor
         threshold,
         category: category === '' ? undefined : category,
         closeUnanswered,
-        closeReason: closeReason as DiscussionCloseReason,
+        closeReason: raw.closeReason as DiscussionCloseReason,
         verbose,
         debug
       } as DiscussionInputProps,
