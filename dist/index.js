@@ -29382,7 +29382,7 @@ class DiscussionInputProcessor {
                 threshold,
                 category: category === '' ? undefined : category,
                 closeUnanswered,
-                closeReason: closeReason,
+                closeReason: raw.closeReason,
                 verbose,
                 debug
             },
