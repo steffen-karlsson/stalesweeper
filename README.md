@@ -66,7 +66,7 @@ jobs:
 
     steps:
       - name: Run action
-        uses: steffen-karlsson/stalesweeper@v1.1.0
+        uses: steffen-karlsson/stalesweeper@v1.1.1
         with:
           repo-token: ${{ secrets.GITHUB_TOKEN }}
           message: 'This discussion has been closed due to inactivity.'
