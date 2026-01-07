@@ -8,7 +8,7 @@ export function buildFetchAllDiscussionsQuery(
   return `
 query {
   repository(owner: "${owner}", name: "${repo}") {
-    discussions(first: 20, states: OPEN, after: ${cursor}) {
+    discussions(first: 20, states: OPEN, after: ${JSON.stringify(cursor)}) {
       nodes {
         id
         number
