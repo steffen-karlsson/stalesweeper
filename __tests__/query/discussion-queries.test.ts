@@ -38,7 +38,7 @@ query {
     expect(query).toEqual(`
 query {
   repository(owner: "my-owner", name: "my-repo") {
-    discussions(first: 20, states: OPEN, after: my-cursor) {
+    discussions(first: 20, states: OPEN, after: "my-cursor") {
       nodes {
         id
         number
